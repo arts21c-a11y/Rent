@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:9
+    environment:
+      MYSQL_ROOT_PASSWORD: change-this-root-password
+      MYSQL_DATABASE: rentops
+      MYSQL_USER: rentops
+      MYSQL_PASSWORD: change-this-password
+    volumes:
+      - mysql_data:/var/lib/mysql
+  rentops:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DATABASE_URL: mysql://rentops:change-this-password@mysql:3306/rentops
+      SESSION_SECRET: change-this-session-secret
+      ADMIN_PASSWORD: change-this-admin-password
+    depends_on:
+      - mysql
+volumes:
+  mysql_data:
